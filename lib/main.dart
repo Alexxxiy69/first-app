@@ -26,8 +26,10 @@ class _MyCustomFormState extends State<MyCustomForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TextField(
+      body: Center(
+        child: TextField(
         controller: myController,
+        )
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -36,7 +38,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
             builder: (context) {
               if (int.tryParse(myController.text) is int) {
                 return AlertDialog(
-                  content: Text(myController.text * 4),
+                  content: Text(ParsingClass(myController, text: '').toString()),
                 );
               } else {
                 return AlertDialog(
@@ -50,5 +52,13 @@ class _MyCustomFormState extends State<MyCustomForm> {
         child: const Icon(Icons.text_fields),
       ),
     );
+  }
+}
+
+class ParsingClass {
+  var text2num;
+
+  ParsingClass(TextEditingController myController, {required String text}) {
+    text2num = text * 4;
   }
 }
