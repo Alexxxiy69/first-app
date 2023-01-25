@@ -1,64 +1,50 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp();
-
-  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyCustomForm(),
+    return MaterialApp(
+      home: Home(),
     );
   }
 }
 
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm();
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<MyCustomForm> createState() => _MyCustomFormState();
+  State<Home> createState() => HomeState();
 }
 
-class _MyCustomFormState extends State<MyCustomForm> {
-  final myController = TextEditingController();
+class HomeState extends State<Home> {
+  bool show = false;
 
-  @override
+  void pressing() {
+    setState(() {
+      show = !show;
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: TextField(
-        controller: myController,
-        )
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              if (int.tryParse(myController.text) is int) {
-                return AlertDialog(
-                  content: Text(ParsingClass(myController, text: '').toString()),
-                );
-              } else {
-                return AlertDialog(
-                  content: Text(myController.text * 2),
-                );
-              }
-            },
-          );
-        },
-        tooltip: 'Show me the value!',
-        child: const Icon(Icons.text_fields),
-      ),
-    );
-  }
-}
-
-class ParsingClass {
-  var text2num;
-
-  ParsingClass(TextEditingController myController, {required String text}) {
-    text2num = text * 4;
+        body: GridView.count(
+      crossAxisCount: 5,
+      children: List.generate(25, (index) {
+        return Padding(
+          padding: EdgeInsets.all(10),
+          child: TextButton(
+            style: TextButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                textStyle: TextStyle(fontSize: 40)),
+            onPressed: pressing,
+            child: show ? Text(index.toString()) : Text('0'),
+          ),
+        );
+      }),
+    ));
   }
 }
